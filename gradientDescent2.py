@@ -3,9 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # x轴数据
-x_data = np.arange(20)
+# x_data = np.arange(20)
+x_data = np.random.uniform(0.0, 20.0, size=50)
+
 # y轴数据
-y_data = np.array([0.4, 0.8, 1.1, 2.1, 2.8, 2.7, 3.5, 4.6, 5.1, 4.5, 6.0, 5.5, 6.9, 6.8, 7.6, 8.0, 8.8, 8.5, 9.5, 9.3])
+# y_data = np.array([0.4, 0.8, 1.1, 2.1, 2.8, 2.7, 3.5, 4.6, 5.1, 4.5, 6.0, 5.5, 6.9, 6.8, 7.6, 8.0, 8.8, 8.5, 9.5, 9.3])
+y_data = x_data * 12 + np.random.normal(loc=0, scale=12.0, size=50)
 
 plt.scatter(x_data, y_data)
 plt.show()
