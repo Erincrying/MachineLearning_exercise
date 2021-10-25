@@ -2,7 +2,6 @@
 import numpy as np
 from sklearn import datasets
 from sklearn.metrics import r2_score
-from sklearn.linear_model import LinearRegression
 # from .metrics import r2_score
 
 class LinearRegression:
