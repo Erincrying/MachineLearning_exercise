@@ -1,4 +1,4 @@
-# 多元线性回归问题（也能解决一元线性回归问题）
+# 多元线性回归问题；解析解（也能解决一元线性回归问题）
 import numpy as np
 from sklearn import datasets
 from sklearn.metrics import r2_score

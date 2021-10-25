@@ -1,4 +1,4 @@
-# 模拟梯度下降
+# 模拟梯度下降（一维）
 import numpy as np
 import matplotlib.pyplot as plt
 

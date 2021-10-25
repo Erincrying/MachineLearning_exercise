@@ -1,4 +1,4 @@
-# 实现一维线性回归：解析解
+# 实现一维线性回归：解析解（求a、b）
 
 import numpy as np
 import matplotlib.pyplot as plt
