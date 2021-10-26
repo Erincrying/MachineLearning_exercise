@@ -110,6 +110,7 @@ class logisticsRegression:
       return "logisticsRegression()"
 
 
+
 # 这里先用鸢尾花数据集
 iris = datasets.load_iris()
 
@@ -147,3 +148,19 @@ log_reg.fit(X_train, y_train) # logisticsRegression()
 print('X_test概率值', log_reg.predict_prob(X_test))
 print('通过概率划分得到的分类值', log_reg.predict(X_test))
 print('y_test测试值', y_test)
+
+# 绘制决策边界的直线(全数据集)
+x1_plot = np.linspace(4, 8, 1000)
+x2_plot = (-log_reg.coef_[0] * x1_plot - log_reg.interception_) / log_reg.coef_[1]
+plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
+plt.plot(x1_plot, x2_plot)
+plt.show()
+
+# 绘制决策边界的直线(测试数据集)
+x1_plot = np.linspace(4, 8, 1000)
+x2_plot = (-log_reg.coef_[0] * x1_plot - log_reg.interception_) / log_reg.coef_[1]
+plt.scatter(X_test[y_test == 0, 0], X_test[y_test == 0, 1], color = "orange")
+plt.scatter(X_test[y_test == 1, 0], X_test[y_test == 1, 1], color = "pink")
+plt.plot(x1_plot, x2_plot)
+plt.show()
