@@ -118,7 +118,9 @@ boston = datasets.load_boston()
 X_train = boston.data
 y_train = boston.target
 
-# 实例化(数学解解法)
+'''
+  实例化(数学解解法)
+'''
 reg = LinearRegression()
 # 进行训练
 reg.fit_normal(X_train, y_train) # LinearRegression()
@@ -128,7 +130,11 @@ print('数学解截距reg.interception_', reg.interception_)
 reg.predict([X_train[0]])
 print('数学解预测值', reg.predict([X_train[0]]))
 
-# 实例化(梯度下降解法)
+
+
+'''
+  实例化(梯度下降解法)
+'''
 lin_reg = LinearRegression()
 # 设置随机种子
 np.random.seed(666)
