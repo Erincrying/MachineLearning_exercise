@@ -37,6 +37,7 @@ def gradient_descent(initial_theta, α, n_iters = 1e8, epsilon = 1e-8):
       if(abs(E_function(theta) - E_function(last_theta)) < epsilon):
           break
       i_iters += 1
+  return
 def plot_theta_history():
   plt.plot(plot_x, E_function(plot_x))
   plt.plot(np.array(history_theta), E_function(np.array(history_theta)), color = 'r', marker = '+')
