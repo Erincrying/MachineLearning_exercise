@@ -32,7 +32,7 @@ class logisticsRegression:
   '''
     梯度下降
   '''
-  def fit(self, X_train, y_train, eta = 0.01, n_iters = 1e4): 
+  def fit(self, X_train, y_train, eta = 5.0, n_iters = 1e4): 
     # 根据训练数据集X_train, y_ .train训练logistics Regression模型
     # X_train的样本数量和y_train的标记数量应该是一致的
     # 使用shape[0]读取矩阵第一维度的长度，在这里就是列数
@@ -166,9 +166,9 @@ plt.plot(x1_plot, x2_plot)
 plt.show()
 
 # 绘制决策边界的直线(训练数据集)
-x1_plot = np.linspace(4, 8, 1000)
-x2_plot = (-log_reg.coef_[0] * x1_plot - log_reg.interception_) / log_reg.coef_[1]
-plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color = "orange")
-plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color = "pink")
-plt.plot(x1_plot, x2_plot)
-plt.show()
+# x1_plot = np.linspace(4, 8, 1000)
+# x2_plot = (-log_reg.coef_[0] * x1_plot - log_reg.interception_) / log_reg.coef_[1]
+# plt.scatter(X_train[y_train == 0, 0], X_train[y_train == 0, 1], color = "orange")
+# plt.scatter(X_train[y_train == 1, 0], X_train[y_train == 1, 1], color = "pink")
+# plt.plot(x1_plot, x2_plot)
+# plt.show()
