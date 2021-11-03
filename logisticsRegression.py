@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 
-
 from manyDimLinearRegression import X_train
 
 class logisticsRegression:
@@ -111,7 +110,7 @@ class logisticsRegression:
 
 
 
-# 这里先用鸢尾花数据集
+# 这里先用鸢尾花数据集（150行4列：150个样本，4个特征值）
 iris = datasets.load_iris()
 
 X = iris.data
@@ -124,7 +123,8 @@ y = y[y < 2]
 # print('X', X.shape)
 # print('y', y.shape)
 
-# 绘制y=0、y=1相应的x的两个特征在二维平面的坐标
+# 绘制y=0、y=1相应的x的两个特征在二维平面的坐标,[y == 行范围, 列范围]
+# X[y == 0, 1]：获取y==0的行，然后获取这些行的第二个元素
 plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
 plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
 plt.show()
