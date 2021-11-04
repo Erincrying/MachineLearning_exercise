@@ -2,7 +2,7 @@
 import numpy as np
 from sklearn import datasets
 from sklearn.metrics import r2_score
-# from .metrics import r2_score
+from sklearn.model_selection import train_test_split
 
 class LinearRegression:
   def __init__(self):
@@ -115,8 +115,17 @@ class LinearRegression:
 # 加载波士顿房价数据集，并划分为X_train,y_train
 # 波士顿房价
 boston = datasets.load_boston()
-X_train = boston.data
-y_train = boston.target
+
+# X_train = boston.data
+# y_train = boston.target
+
+X = boston.data
+y = boston.target
+
+X = X[y < 50.0]
+y = y[y < 50.0]
+# 分出测试集合训练集
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 
 '''
   实例化(数学解解法)
@@ -124,11 +133,13 @@ y_train = boston.target
 reg = LinearRegression()
 # 进行训练
 reg.fit_normal(X_train, y_train) # LinearRegression()
+# 预测r方值
+print('预测精确度', reg.score(X_test, y_test))
 # 截距
 print('数学解系数reg.coef_', reg.coef_)
 print('数学解截距reg.interception_', reg.interception_)
-reg.predict([X_train[0]])
-print('数学解预测值', reg.predict([X_train[0]]))
+print('数学解预测值', reg.predict(X_test))
+print('y_test测试值', y_test)
 
 
 
