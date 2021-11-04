@@ -3,8 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
-from manyDimLinearRegression import X_train
 
 class logisticsRegression:
   def __init__(self):
@@ -103,6 +103,14 @@ class logisticsRegression:
     return temp_prob
 
   '''
+    预测准确度
+  '''
+  def score(self, X_test, y_test):
+    # 根据测试数据集 X_test 和y_test 确定当前模型的准确度
+    y_predict = self.predict(X_test)
+    return accuracy_score(y_test, y_predict)
+
+  '''
     显示属性
   '''
   def __repr__(self):
@@ -144,6 +152,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 
 # 进行训练,通过测试训练分离的方法测试逻辑回归的结果
 log_reg.fit(X_train, y_train) # logisticsRegression()
+# 得到预测值
+print('精确度', log_reg.score(X_test, y_test))
 # log_reg.predict_prob(X_test)
 print('X_test概率值', log_reg.predict_prob(X_test))
 print('通过概率划分得到的分类值', log_reg.predict(X_test))
