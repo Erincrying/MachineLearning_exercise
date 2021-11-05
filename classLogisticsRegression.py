@@ -1,7 +1,9 @@
+# 逻辑回归类
+
 import numpy as np
 from sklearn.metrics import accuracy_score
 
-# 逻辑回归类
+
 class logisticsRegression:
   def __init__(self):
       # 初始化logistics Regression模型
