@@ -4,9 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from classLogisticsRegression import logisticsRegression # 引入逻辑回归类对象
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import PolynomialFeatures
-
-
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
 '''
   绘制决策边界
@@ -58,16 +56,50 @@ plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
 plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
 plt.show()
 
-# 使用逻辑回归多多项式项进行分类划分
-# 实例化
-log_reg = logisticsRegression()
-# 这里就不划分训练样本和测试样本了，这里直接用所有样本进行训练
-log_reg.fit(X, y)
+# # 使用逻辑回归多多项式项进行分类划分
+# # 实例化
+# log_reg = logisticsRegression()
+# # 这里就不划分训练样本和测试样本了，这里直接用所有样本进行训练
+# log_reg.fit(X, y)
+# # 绘制决策边界
+# plot_decision_boundary(log_reg, axis=[-4, 4, -4, 4]) # x、y轴的范围大致都在（-4,4）
+# # 绘制样本
+# plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
+# plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
+# plt.show()
+
+
+# 包装管道进行多项式回归（传入degree，返回多项式回归的类）
+def PolynomialLogisticsRegression(degree):
+  # 使用pipeline创建管道，送给poly_reg对象的数据会沿着管道的三步依次进行
+  return Pipeline([ # Pipeline传入的是列表，列表中传入管道中每一步对应的类(这个类以元组的形式进行传送)
+    ("poly", PolynomialFeatures(degree=degree)), # 第一步：求多项式特征，相当于poly = PolynomialFeatures(degree=2)
+    ("std_scaler", StandardScaler()), # 第二步：数值的均一化
+    ("log_reg", logisticsRegression()) # 第三步：进行逻辑回归操作
+  ])
+
+
+''' degree=2'''
+poly_log_reg = PolynomialLogisticsRegression(2)
+poly_log_reg.fit(X, y)
+# 查询分类准确度
+print('degree=2分类准确度', poly_log_reg.score(X, y))
 # 绘制决策边界
-plot_decision_boundary(log_reg, axis=[-4, 4, -4, 4]) # x、y轴的范围大致都在（-4,4）
+plot_decision_boundary(poly_log_reg, axis=[-4, 4, -4, 4]) # x、y轴的范围大致都在（-4,4）
 # 绘制样本
 plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
 plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
 plt.show()
 
-Pipeline()
+
+''' degree=20 '''
+poly_log_reg2 = PolynomialLogisticsRegression(20)
+poly_log_reg2.fit(X, y)
+# 查询分类准确度
+print('degree=20分类准确度', poly_log_reg2.score(X, y))
+# 绘制决策边界
+plot_decision_boundary(poly_log_reg2, axis=[-4, 4, -4, 4]) # x、y轴的范围大致都在（-4,4）
+# 绘制样本
+plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
+plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
+plt.show()
