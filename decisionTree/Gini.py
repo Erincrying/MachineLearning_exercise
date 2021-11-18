@@ -1,4 +1,4 @@
-# 使用信息熵寻找最优划分
+# 模拟使用基尼系数对决策树进行划分
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,10 +17,10 @@ y = iris.target
   创建决策树
   max_depth: 决策树最高深度
   criterion：划分数据的标准（比如信息熵、基尼系数）
-  entropy: 熵
+  gini: 基尼系数
 '''
 # 训练决策树分类器
-dt_clf = DecisionTreeClassifier(max_depth=2, criterion="entropy")
+dt_clf = DecisionTreeClassifier(max_depth=2, criterion="gini")
 dt_clf.fit(X, y)
 
 '''
@@ -68,7 +68,12 @@ plt.scatter(X[y == 2, 0], X[y == 2, 1])
 plt.show()
 
 '''
-  模拟使用信息熵进行划分
+  以下的函数部分代码和使用信息熵进行划分的方法大部分都是一样的
+  区别仅仅在于之前用于计算信息熵的方法，在这里改成了计算基尼系数
+'''
+
+'''
+  模拟使用基尼系数进行划分
   d:划分维度
   value：阈值
 ''' 
@@ -79,25 +84,25 @@ def split(X, y ,d, value):
 
 
 '''
-  求信息熵
+  求基尼系数
 '''
-def entropy(y):
+def gini(y):
   # 将y值做成字典
   # counter包含键值对，y的取值-y的取值对应的分类个数
   counter = Counter(y)
-  res = 0.0
+  res = 1.0
   # 遍历看每一个不同的类别，有多少个样本点
   for num in counter.values():
     p = num / len(y)
-    res += -p * log(p)
+    res -= p**2
   return res
 
 '''
-  划分使信息熵最低
-  在d列对应特征值的数据寻找信息熵和最小的划分方式
+  划分使基尼系数最低
+  在d列对应特征值的数据寻找基尼系数和最小的划分方式
 '''
 def try_spilt(X, y):
-  best_entropy = float('inf')
+  best_g = float('inf')
   best_d, best_v = -1, -1 # 维度、阈值
   # 穷搜
   for d in range(X.shape[1]): # 有多少列（特征），shape[0]有多少行，shape[1]有多少列
@@ -110,35 +115,34 @@ def try_spilt(X, y):
         # X_l左子树，X_r右子树
         # 进行划分
         X_l, X_r, y_l, y_r = split(X, y ,d, v)
-        #  信息熵的和
-        e = entropy(y_l) + entropy(y_r)
-        # best_entropy:之前搜索过的某一个信息熵
-        if e < best_entropy: # 找到更好的划分方式
-          best_entropy, best_d, best_v = e, d, v
-  return best_entropy, best_d, best_v
-      
+        #  基尼系数的和
+        g = gini(y_l) + gini(y_r)
+        # best_g:之前搜索过的某一个基尼系数
+        if g < best_g: # 找到更好的划分方式
+          best_g, best_d, best_v = g, d, v
+  return best_g, best_d, best_v
+
 '''
   调用
 '''
-best_entropy, best_d, best_v = try_spilt(X, y)
-print('best_entropy=', best_entropy)
+best_g, best_d, best_v = try_spilt(X, y)
+print('best_g=', best_g)
 print('best_d=', best_d)
 print('best_v=', best_v)
-
 # 第一次划分得到的数据
 X1_l, X1_r, y1_l, y1_r = split(X, y ,best_d, best_v)
-print(entropy(y1_l), 'y1_l的信息熵')
-print(entropy(y1_r), 'y1_r的信息熵')
+print(gini(y1_l), 'y1_l的基尼系数')
+print(gini(y1_r), 'y1_r的基尼系数')
 
 
-
-# y1_l对应划分之后左边的部分，信息熵为0，不需要再进行划分
-# y1_r对应划分之后右边的部分，信息熵大于0，可以继续进行划分
-best_entropy2, best_d2, best_v2 = try_spilt(X1_r, y1_r)
-print('best_entropy2=', best_entropy2)
+# y1_l对应划分之后左边的部分，基尼系数为0，不需要再进行划分
+# y1_r对应划分之后右边的部分，基尼系数大于0，可以继续进行划分
+best_g2, best_d2, best_v2 = try_spilt(X1_r, y1_r)
+print('best_g2=', best_g2)
 print('best_d2=', best_d2)
 print('best_v2=', best_v2)
 # 第二次划分得到的数据
 X2_l, X2_r, y2_l, y2_r = split(X1_r, y1_r ,best_d2, best_v2)
-print(entropy(y2_l), 'y2_l的信息熵')
-print(entropy(y2_r), 'y2_r的信息熵')
+print(gini(y2_l), 'y2_l的基尼系数')
+print(gini(y2_r), 'y2_r的基尼系数')
+      
