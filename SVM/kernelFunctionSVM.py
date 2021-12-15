@@ -1,35 +1,24 @@
 '''
-  SVM中使用多项式特征
+  使用多项式核函数的SVM
 '''
-
 import numpy as np
 import matplotlib.pyplot as plt
-
 from sklearn import datasets
-from sklearn.preprocessing import PolynomialFeatures, StandardScaler # 引入多项式类、标准化
-# 使用支持向量机的方法进行分类（线性SVM）
-from sklearn.svm import LinearSVC
+
+from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline # 引入Pipeline顺序执行相关过程
+from sklearn.preprocessing import StandardScaler # 引入多项式类、标准化
 
 X, y = datasets.make_moons(noise=0.15, random_state=666)
-print(X.shape, 'X.shape')
-print(y.shape, 'y.shape')
-
-# 绘制样本
-plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
-plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
-plt.show()
-
 '''
   svm中使用多项式特征
   degree: 阶数
 '''
-def PolynomialSVC(degree, C = 1.0):
+def PolynomialKernelSVC(degree, C = 1.0):
   # 使用pipeline创建管道，送给实例化对象的数据会沿着管道的三步依次进行
   return Pipeline([ # Pipeline传入的是列表，列表中传入管道中每一步对应的类(这个类以元组的形式进行传送)
-    ("poly", PolynomialFeatures(degree=degree)), # 第一步：求多项式特征，相当于poly = PolynomialFeatures(degree=2)
-    ("std_scaler", StandardScaler()), # 第二步：数值的均一化
-    ("linearSVC", LinearSVC(C = C)) # 第三步：进行分类
+    ("std_scaler", StandardScaler()), # 第一步：数值的均一化
+    ("kernelSVC", SVC(kernel='poly', degree=degree, C=C)) # 第二步：进行分类,同样可以达到多项式SVM的效果
   ])
 
 '''
@@ -50,7 +39,7 @@ def plot_decision_boundary(model, axis):
     np.linspace(axis[0], axis[1], int((axis[1] - axis[0]) * 100)).reshape(-1, 1),
     np.linspace(axis[2], axis[3], int((axis[3] - axis[2]) * 100)).reshape(-1, 1),
   )
-  print('x0', x0)
+  # print('x0', x0)
   # print('x1', x1)
   # np.r_是按列连接两个矩阵，就是把两矩阵上下相加，要求列数相等，相加后列数不变。
   # np.c_是按行连接两个矩阵，就是把两矩阵左右相加，要求行数相等，相加后行数不变。
@@ -70,10 +59,10 @@ def plot_decision_boundary(model, axis):
   plt.contourf(x0, x1, zz, linewidth=5, cmap=custom_cmap)
 
 
-poly_svc = PolynomialSVC(degree=3)
-poly_svc.fit(X, y) # 这里也是不区分训练集和测试集，所以所有数据都用来训练
-# 绘制决策边界
-plot_decision_boundary(poly_svc, axis=[-1.5, 2.5, -1.0, 1.5])
+# 实例化对象
+poly_kernel_svc = PolynomialKernelSVC(degree=3)
+poly_kernel_svc.fit(X, y)
+plot_decision_boundary(poly_kernel_svc, axis=[-1.5, 2.5, -1.0, 1.5])
 # 绘制样本
 plt.scatter(X[y == 0, 0], X[y == 0, 1], color = "orange")
 plt.scatter(X[y == 1, 0], X[y == 1, 1], color = "pink")
