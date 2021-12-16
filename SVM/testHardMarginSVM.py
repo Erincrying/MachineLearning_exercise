@@ -158,3 +158,14 @@ plt.scatter(X_standardScaler[y_train == 0, 0], X_standardScaler[y_train == 0, 1]
 plt.scatter(X_standardScaler[y_train == 1, 0], X_standardScaler[y_train == 1, 1], color = "pink")
 plt.show()
 
+
+# 测试数据集
+# 绘制决策边界
+plot_decision_boundary(svc, axis=[-3, 3, -3, 3])
+# 绘制决策边界以及两根直线
+plot_svc_decision_boundary(svc, axis=[-3, 3, -3, 3])
+# 绘制样本
+
+plt.scatter(X_testStandardScaler[y_test == 0, 0], X_testStandardScaler[y_test == 0, 1], color = "orange")
+plt.scatter(X_testStandardScaler[y_test == 1, 0], X_testStandardScaler[y_test == 1, 1], color = "pink")
+plt.show()
